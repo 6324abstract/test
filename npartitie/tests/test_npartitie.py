@@ -1,7 +1,6 @@
 import pytest
 import networkx as nx
-from   ..core.Npartitie import *
-
+from  npartitie.core.Npartitie import *
 
 
 def test_empty_complex():
