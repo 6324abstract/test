@@ -1,6 +1,6 @@
 import pytest
 import networkx as nx
-from core.Npartitie import *
+from   ..core.Npartitie import *
 
 
 
