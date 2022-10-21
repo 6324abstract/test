@@ -16,7 +16,6 @@ class Cell():
 
 
 def transfrom_CWc_to_npartite(c: CWcomplex):
-    # for Li-san to implement
     result = nx.MultiDiGraph()
     for layer in c.layers:
         layer_dimension = layer[0].dimension
