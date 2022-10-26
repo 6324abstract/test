@@ -7,6 +7,16 @@ class CWcomplex():
     def __init__(self, layers: List[List[Cell]]):
         self.layers = layers
 
+    def check_minimality(self):
+        # return list of cells for which minimality condition is not satisfied
+        # is atomization an exception to minimality check?
+        redundant_cell = []
+        for layer in self.layers:
+            bound_occur = {}
+            for cell in layer:  # break into atomic bound and check duplication but insufficient
+                while cell.dimension>0:
+
+                    bound_occur
 
 class Cell():
     def __init__(self, dimension: int, boundary: Tuple[Cell, ...], atomization: Union[Cell, None] = None):
