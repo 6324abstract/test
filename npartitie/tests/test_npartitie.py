@@ -1,6 +1,6 @@
 import pytest
 import networkx as nx
-from  npartitie.core.Npartitie import *
+from npartitie.core.Npartitie import *
 
 
 def test_empty_complex():
@@ -72,3 +72,17 @@ def test_big_complex():  # generate a different cwc with test_atomic_links for d
     expected_npartite.add_edges_from(np_edges)
 
     assert nx.is_isomorphic(nc, expected_npartite)
+
+
+def test_cell_minimality():
+    # construct a cwc with redundant
+    cell_0_0 = Cell(0, [])
+    cell_0_1 = Cell(0, [])
+    cell_0_2 = Cell(0, [])
+
+    cell_1_0 = Cell(1, [cell_0_0, cell_0_1])
+    cell_1_1 = Cell(1, [cell_0_1, cell_0_2])
+    cell_2_0 = Cell(2, [cell_1_0, cell_1_1])
+    cell_3_0 = Cell(3, [cell_2_0, cell_1_0])
+
+    assert cell_3_0.boundary_duplicated()
