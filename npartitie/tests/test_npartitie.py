@@ -82,7 +82,7 @@ def test_cell_minimality():
 
     cell_1_0 = Cell(1, [cell_0_0, cell_0_1])
     cell_1_1 = Cell(1, [cell_0_1, cell_0_2])
-    cell_2_0 = Cell(2, [cell_1_0, cell_1_1])
-    cell_3_0 = Cell(3, [cell_2_0, cell_1_0])
+    cell_2_0 = Cell(2, [cell_1_0,cell_1_1])
+    cell_3_0 = Cell(3, [cell_2_0])
 
-    assert cell_3_0.boundary_duplicated()
+    assert cell_3_0.has_boundary(cell_1_1)[0]
