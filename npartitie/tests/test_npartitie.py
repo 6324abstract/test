@@ -74,36 +74,18 @@ def test_big_complex():  # generate a different cwc with test_atomic_links for d
     assert nx.is_isomorphic(nc, expected_npartite)
 
 
-def test_has_boundary():
-    # construct a cwc with redundant
+def test_check_minimality():
     cell_0_0 = Cell(0, [])
     cell_0_1 = Cell(0, [])
     cell_0_2 = Cell(0, [])
 
     cell_1_0 = Cell(1, [cell_0_0, cell_0_1])
-    cell_1_1 = Cell(1, [cell_0_2, cell_0_1])
-    cell_2_0 = Cell(2, [cell_1_1, cell_1_0])
-    cell_2_1 = Cell(2, [cell_1_1])
-    cell_3_0 = Cell(3, [cell_2_0])
+    cell_1_1 = Cell(1, [cell_0_1, cell_0_2])
+    cell_1_2 = Cell(1, [cell_0_2, cell_0_0])
+    cell_2_0 = Cell(2, [cell_1_0, cell_1_1])
+    cell_3_0 = Cell(3, [cell_1_1, cell_2_0])
 
-    assert cell_3_0.has_boundary(cell_2_0)[0][0]
-    assert cell_3_0.has_boundary(cell_0_1)[0][0]
-    assert cell_2_1.has_boundary(cell_0_2)[0][0]
-    assert not (cell_3_0.has_boundary(cell_2_1)[0][0])
-    assert not (cell_2_1.has_boundary(cell_0_0)[0][0])
-    assert not (cell_2_1.has_boundary(cell_1_0)[0][0])
+    c = CWcomplex([[cell_0_0, cell_0_1, cell_0_2], [cell_1_0, cell_1_1, cell_1_2], [cell_2_0], [cell_3_0]])
+    redundant_cells = [cell_3_0]
 
-
-def test_boundary_duplicated():
-    cell_0_0 = Cell(0, [])
-    cell_0_1 = Cell(0, [])
-    cell_0_2 = Cell(0, [])
-
-    cell_1_0 = Cell(1, [cell_0_0, cell_0_1])
-    cell_1_1 = Cell(1, [cell_0_2, cell_0_1])
-    cell_2_0 = Cell(2, [cell_0_0, cell_1_0])
-    cell_2_1 = Cell(2, [cell_1_1])
-    cell_3_0 = Cell(3, [cell_1_0, cell_2_1])
-
-    assert cell_2_0.boundary_duplicated()
-    assert not cell_3_0.boundary_duplicated()
+    assert c.check_minimality() == redundant_cells
