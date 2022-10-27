@@ -29,18 +29,18 @@ class Cell():
         self.label = label
 
     def boundary_duplicated(self):  # check if a cell's boundary has redundancy O(d^3).
-      pass
+        for i in range(0,len(self.boundary)-1):
+            is_boundary=self.boundary[i+1].has_boundary(self.boundary[i])[0][0]
+            if is_boundary:
+                return True
+        return False
 
     def has_boundary(self, low_cell):  # time complexity=O(dimension^2)
-        '''
-
-        :param low dimension cell which is possible :
-        use dp Cn.has_boundary(Cm)=reduce(lambda x,y:x or y,map(lambda bnd:cn.boundary,bnd.has_boundary(Cn))
-        '''
         if self.dimension == low_cell.dimension:
-            return [self == low_cell]
+            return [[self == low_cell]]
         else:
             for bnd in self.boundary:
+                # map led to umlimited recrusion but seemed the same to me
                 # return reduce(lambda x,y:x or y,map(self.has_boundary(low_cell),self.boundary))
                 return [reduce(lambda x, y: x or y, bnd.has_boundary(low_cell))]
 
@@ -62,5 +62,16 @@ def transfrom_CWc_to_npartite(c: CWcomplex):
                 result.add_edge(cell, cell.atomization)
     return result
 
+if __name__=="__main__":
+    cell_0_0 = Cell(0, [])
+    cell_0_1 = Cell(0, [])
+    cell_0_2 = Cell(0, [])
 
+    cell_1_0 = Cell(1, [cell_0_0, cell_0_1])
+    cell_1_1 = Cell(1, [cell_0_2, cell_0_1])
+    cell_2_0 = Cell(2, [cell_1_1, cell_1_0])
+    cell_2_1 = Cell(2, [cell_1_1])
+    cell_3_0 = Cell(3, [cell_2_0])
 
+    re= cell_3_0.has_boundary(cell_0_1)
+    print(re)
