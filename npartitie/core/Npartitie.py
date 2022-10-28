@@ -28,28 +28,28 @@ class Cell():
         self.atomization = atomization
         self.label = label
 
-    def boundary_duplicated(self):  # check if a cell's boundary has redundancy O(d^3).
-        for i in range(0, len(self.boundary) - 1):
-            is_boundary = self.boundary[i + 1].has_boundary_helper(self.boundary[i])
+    def boundary_duplicated(self):  # check if a cell's boundaries have redundancy.
+        for i in range(0, len(self.boundary) - 1):  # assume boundary in order of dimension
+            is_boundary = self.boundary[i + 1].isConnected_helper(self.boundary[i]) #see if the former is in the subset of the latter's boundary
             if is_boundary:
                 return True
         return False
 
-    def has_boundary(self, low_cell):
+    def isConnected(self, low_cell):
         '''
-        :param low dimension cell
-        :return: a list storing the result whether the low cell is connected to its boundaries
+        :param low dimension cell to
+        :return: a boolean array storing the low cell's connectedness to its boundaries
         '''
-        if self.dimension == low_cell.dimension:
+        if self.dimension == low_cell.dimension:  #
             return [self == low_cell]
         else:
             re = []
-            for bnd in self.boundary:
-                re.append(reduce(lambda x, y: x or y, bnd.has_boundary(low_cell)))
+            for bnd in self.boundary:  # iterate its boundary
+                re.append(reduce(lambda x, y: x or y, bnd.isConnected(low_cell)))
             return re
 
-    def has_boundary_helper(self, low_cell):  # get the final result
-        re_list = self.has_boundary(low_cell)
+    def isConnected_helper(self, low_cell):  # combine result array using logic and
+        re_list = self.isConnected(low_cell)
         return reduce(lambda x, y: x or y, re_list)
 
 
